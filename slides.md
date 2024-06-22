@@ -49,7 +49,6 @@ The last comment block of each slide will be treated as slide notes. It will be 
 -->
 
 ---
-
 transition: fade-out
 ---
 
@@ -65,7 +64,6 @@ Slidev is a slides maker and presenter designed for developers, consist of the f
 - 📤 **Portable** - export to PDF, PPTX, PNGs, or even a hostable SPA
 - 🛠 **Hackable** - virtually anything that's possible on a webpage is possible in Slidev
 <br>
-
 <br>
 
 Read more about [Why Slidev?](https://sli.dev/guide/why)
@@ -92,7 +90,6 @@ Here is another comment.
 -->
 
 ---
-
 transition: slide-up
 level: 2
 ---
@@ -103,12 +100,12 @@ Hover on the bottom-left corner to see the navigation's controls panel, [learn m
 
 ## Keyboard Shortcuts
 
-|     |     |
-| --- | --- |
-| <kbd>right</kbd> / <kbd>space</kbd>| next animation or slide |
+|                                                     |                             |
+| --------------------------------------------------- | --------------------------- |
+| <kbd>right</kbd> / <kbd>space</kbd>                 | next animation or slide     |
 | <kbd>left</kbd>  / <kbd>shift</kbd><kbd>space</kbd> | previous animation or slide |
-| <kbd>up</kbd> | previous slide |
-| <kbd>down</kbd> | next slide |
+| <kbd>up</kbd>                                       | previous slide              |
+| <kbd>down</kbd>                                     | next slide                  |
 
 <!-- https://sli.dev/guide/animations.html#click-animations -->
 <img
@@ -120,7 +117,6 @@ Hover on the bottom-left corner to see the navigation's controls panel, [learn m
 <p v-after class="absolute bottom-23 left-45 opacity-30 transform -rotate-10">Here!</p>
 
 ---
-
 layout: two-cols
 layoutClass: gap-16
 ---
@@ -140,9 +136,8 @@ The title will be inferred from your slide content, or you can override it with 
 <Toc v-click minDepth="1" maxDepth="2"></Toc>
 
 ---
-
 layout: image-right
-image: <https://cover.sli.dev>
+image: https://cover.sli.dev
 ---
 
 # Code
@@ -194,7 +189,6 @@ Notes can also sync with clicks
 -->
 
 ---
-
 level: 2
 ---
 
@@ -311,7 +305,6 @@ Also, HTML elements are valid:
 -->
 
 ---
-
 class: px-20
 ---
 
@@ -566,7 +559,6 @@ database "MySql" {
 [Learn More](https://sli.dev/guide/syntax.html#diagrams)
 
 ---
-
 foo: bar
 dragPos:
   square: 691,32,167,_,-16
@@ -612,7 +604,6 @@ Double-click on the draggable elements to edit their positions.
 <v-drag-arrow pos="67,452,253,46" two-way op70 />
 
 ---
-
 src: ./pages/multiple-entries.md
 hide: false
 ---
@@ -644,7 +635,6 @@ console.log(emptyArray<number>(10).reduce(fib => [...fib, fib.at(-1)! + fib.at(-
 ```
 
 ---
-
 layout: center
 class: text-center
 ---
