@@ -7,6 +7,8 @@ const props = defineProps({
   },
 })
 
+console.log('sssssssssssssssssssssssssssssssss')
+
 const counter = ref(props.count)
 </script>
 

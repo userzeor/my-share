@@ -17,6 +17,9 @@ importers:
       '@slidev/theme-seriph':
         specifier: latest
         version: 0.25.0
+      axios:
+        specifier: 0.21.1
+        version: 0.21.1
       vue:
         specifier: ^3.4.27
         version: 3.4.29(typescript@5.5.2)
@@ -885,6 +888,9 @@ packages:
 
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
+
+  axios@0.21.1:
+    resolution: {integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==}
 
   axios@1.7.2:
     resolution: {integrity: sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==}
@@ -4009,6 +4015,12 @@ snapshots:
   argparse@2.0.1: {}
 
   asynckit@0.4.0: {}
+
+  axios@0.21.1:
+    dependencies:
+      follow-redirects: 1.15.6(debug@4.3.5)
+    transitivePeerDependencies:
+      - debug
 
   axios@1.7.2(debug@4.3.5):
     dependencies:
