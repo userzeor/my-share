@@ -2,7 +2,7 @@ import axios from 'axios'
 // 创建axios请求
 const http = axios.create({
   // 请求域名
-  baseURL: 'http://192.168.31.34:3000',
+  baseURL: 'http://192.168.110.32:3000',
   // 设置超时时间
   timeout: 1000 * 30,
   // 跨域情况下带上cookie

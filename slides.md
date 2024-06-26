@@ -137,7 +137,7 @@ transition: fade-out
 
   ## 定高
   
-  <RenderWhen context="overview"><FixedHeightVirtualList /></RenderWhen>
+  <RenderWhen context="main"><FixedHeightVirtualList /></RenderWhen>
   </div>
   <div>
 
