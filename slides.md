@@ -19,6 +19,8 @@ drawings:
 transition: slide-left
 # enable MDC Syntax: https://sli.dev/guide/syntax#mdc-syntax
 mdc: true
+# aspectRatio: 1:1
+# canvasWidth: 1980
 ---
 
 # 虚拟滚动原理与实践
@@ -119,8 +121,10 @@ transition: fade-out
   3. 非可视区域：列表数据区域减去可视区域后不可见的区域。
   </div>
 
-  <div>
-
+  <div class="flex flex-items-center flex-justify-center">
+    <RenderWhen context="main">
+      <FixedHeightVirtualList class="flex-1" />
+    </RenderWhen>
   </div>
 
 </div>
@@ -129,18 +133,140 @@ transition: fade-out
 transition: fade-out
 ---
 
-# 虚拟滚动实现方式
+# 虚拟滚动定高实现方式
 
 <div grid="~ cols-2 gap-4" class="h-full">
 
   <div>
-
-  ## 定高
   
-  <RenderWhen context="main"><FixedHeightVirtualList /></RenderWhen>
+  <div class="h-400px overflow-auto">
+
+  ```vue {all} twoslash
+  <script lang="ts" setup>
+  import { ref, onMounted, getCurrentInstance, computed } from 'vue'
+  import { getVirtualList } from './api/index.js'
+  import { useWindowSize } from '@vueuse/core'
+  import type { ComputedRef } from "vue";
+
+  type Item = {
+    img: string;
+    text: string;
+    address: string;
+  };
+
+  const instance = getCurrentInstance()
+
+  // 总数据源
+  const dataList = ref([])
+
+  // 容器高度
+  const screenHeight = ref(400)
+
+  // 容器偏移量
+  const scrollOffset = ref(0)
+
+  // 每项高度
+  const itemSize = ref(100)
+
+  // 列表开始索引偏移量
+  const screenStart = ref(0)
+
+  // 列表结束索引偏移量
+  const screenEnd = ref(screenHeight.value / itemSize.value)
+
+  // 虚拟列表
+  const visibleData = computed(() => {
+    return dataList.value.slice(screenStart.value, screenEnd.value) as Item[]
+  })
+
+  // 容器滚动事件
+
+  const cotentScroll = (e) => {
+    const { scrollTop } = e.target
+
+    if (scrollOffset.value === scrollTop) return
+
+    screenStart.value = Math.floor(scrollTop / itemSize.value)
+
+    screenEnd.value = screenStart.value + screenHeight.value / itemSize.value
+
+    // 偏移量
+    scrollOffset.value = scrollTop - (scrollTop % itemSize.value)
+  }
+
+  const getList = async () => {
+    const res = await getVirtualList()
+    dataList.value = res.data.data
+  }
+
+  onMounted(() => {
+    getList()
+  })
+  </script>
+
+  <template>
+    <div
+      class="overflow-auto"
+      :style="{ height: screenHeight + 'px' }"
+      @scroll="cotentScroll"
+    >
+      <div
+        class="flex flex-col bg-#fff c-#333"
+        :style="{
+          height: `${itemSize * dataList.length}px`,
+        }"
+      >
+        <div
+          :style="{
+            willChange: 'transform',
+            transform: `translateY(${scrollOffset}px)`,
+          }"
+        >
+          <div
+            class="flex flex-items-center"
+            v-for="(item, index) in visibleData"
+            :key="index"
+            :style="{ height: itemSize + 'px' }"
+          >
+            <img
+              :src="item.img"
+              class="w-100px h-100px m-r-15px"
+              alt=""
+              srcset=""
+            />
+            <div class="flex flex-col">
+              <div class="flex-1 m-b-10px">
+                {{ item.text }}
+              </div>
+              <div class="flex-1">{{ item.address }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+  ```
+
+  </div>
   </div>
   <div>
-
-  ## 不定高
+    <RenderWhen context="main">
+      <FixedHeightVirtualList />
+    </RenderWhen>
   </div>
 </div>
+
+---
+transition: fade-out
+---
+
+<div class="bg flex w-full h-full flex-items-center flex-justify-center text-32px">
+  <div>分享结束，谢谢</div>
+</div>
+
+<style>
+  .bg{
+    background-image: url('https://cover.sli.dev');
+    background-size: 100% 100%;
+  }
+</style>

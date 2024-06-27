@@ -1,6 +1,13 @@
 <script setup>
-import { ref, onMounted, getCurrentInstance, computed } from 'vue'
-import { getVirtualList } from '../api/index.js'
+import {
+  ref,
+  onMounted,
+  getCurrentInstance,
+  computed,
+  onUpdated,
+  nextTick,
+} from 'vue'
+import { getDynamicVirtualList } from '../api/index.js'
 import { useWindowSize } from '@vueuse/core'
 
 const instance = getCurrentInstance()
@@ -28,8 +35,10 @@ const visibleData = computed(() => {
   return dataList.value.slice(screenStart.value, screenEnd.value)
 })
 
-// 容器滚动事件
+// 虚拟列表refList
+let virtualListRef = ref([])
 
+// 容器滚动事件
 const cotentScroll = (e) => {
   const { scrollTop } = e.target
 
@@ -43,23 +52,31 @@ const cotentScroll = (e) => {
   scrollOffset.value = scrollTop - (scrollTop % itemSize.value)
 }
 
-// const containerWidth = useWindowSize().width.value
-
-// const scale = Math.min(
-//   containerWidth / 980,
-//   containerWidth / (16 / 9) / Math.ceil(980 / (16 / 9))
-// )
-// console.log(Math.ceil(980 / (16 / 9)))
-// console.log(scale)
-
-// setTimeout(() => {
-//   console.log(useWindowSize().width.value)
-// }, 5000)
-
 const getList = async () => {
-  const res = await getVirtualList()
+  const res = await getDynamicVirtualList()
   dataList.value = res.data.data
 }
+
+// 推入ref
+const setItemRef = (el) => {
+  virtualListRef.value.push(el)
+}
+
+// 渲染完获取实际高度更新索引
+const updateIndex = () => {
+  // console.log(virtualListRef.value)
+}
+
+// 图片渲染完成事件
+const imgLoad = (e, item, index) => {
+  // console.log(e, item, index)
+  const nodeInfo = virtualListRef.value[index].getBoundingClientRect()
+  console.log(nodeInfo)
+}
+
+onUpdated(() => {
+  updateIndex()
+})
 
 onMounted(() => {
   getList()
@@ -87,14 +104,20 @@ onMounted(() => {
         <div
           class="flex flex-items-center"
           v-for="(item, index) in visibleData"
+          :ref="setItemRef"
           :key="index"
-          :style="{ height: itemSize + 'px' }"
+          :style="{ height: item.itemSize + 'px' }"
         >
           <img
             :src="item.img"
-            class="w-100px h-100px m-r-15px"
+            class="w-100px m-r-15px"
             alt=""
             srcset=""
+            @load="
+              (e) => {
+                imgLoad(e, item, index)
+              }
+            "
           />
           <div class="flex flex-col">
             <div class="flex-1 m-b-10px">

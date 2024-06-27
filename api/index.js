@@ -6,3 +6,10 @@ export const getVirtualList = (parmas) =>
     method: 'GET',
     parmas,
   })
+
+export const getDynamicVirtualList = (parmas) =>
+  request({
+    url: '/virtual/dynamicHeightList',
+    method: 'GET',
+    parmas,
+  })
